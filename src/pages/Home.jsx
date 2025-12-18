@@ -1,21 +1,21 @@
-import { useEffect } from "react"
-import Charts from "../components/Charts"
-import KPI from "../components/KPI"
-import useStockCalls from "../service/useStockCalls"
+import { useEffect } from "react";
+import Charts from "../components/Charts";
+import KPI from "../components/KPI";
+import useStockCalls from "../service/useStockCalls";
 
 const Home = () => {
-const {getStocks}= useStockCalls()
-  useEffect(()=>{
-    getStocks("sales")
-    getStocks("purchases")
-    getStocks("sales")
-  },[])
-  return (
-  <>
-    <KPI/>
-    <Charts/>
-  </>
-    )
-}
+  const { getStocks } = useStockCalls();
 
-export default Home
+  useEffect(() => {
+    getStocks("sales");
+    getStocks("purchases");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return (
+    <>
+      <KPI />
+      <Charts />
+    </>
+  );
+};
+
+export default Home;

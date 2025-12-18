@@ -59,13 +59,16 @@ export default function ProductTable() {
       type: "actions",
       headerName: "Actions",
       headerAlign: "center",
-      getActions: (props) => [
-        <GridActionsCellItem
-          icon={<DeleteForeverIcon />}
-          onClick={() => deleteStock("products", props.id)}
-          label="Delete"
-        />,
-      ],
+      getActions: (props) => {
+        return [
+          <GridActionsCellItem
+            key="delete"
+            icon={<DeleteForeverIcon />}
+            onClick={() => deleteStock("products", props.id)}
+            label="Delete"
+          />,
+        ];
+      },
     },
   ];
 

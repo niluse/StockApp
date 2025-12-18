@@ -11,7 +11,7 @@ import Select from "@mui/material/Select";
 import { useSelector } from "react-redux";
 
 export default function PurchaseModal({ open, handleClose, data, setData }) {
-  const { postStock } = useStockCalls();
+  const { postStock, putStock } = useStockCalls();
   const { firms, brands, products } = useSelector((state) => state.stock);
 
   const handleChange = (e) => {
@@ -20,7 +20,11 @@ export default function PurchaseModal({ open, handleClose, data, setData }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postStock("purchases", data);
+    if (data._id) {
+      putStock("purchases", data);
+    } else {
+      postStock("purchases", data);
+    }
     handleClose();
   };
 
@@ -43,9 +47,10 @@ export default function PurchaseModal({ open, handleClose, data, setData }) {
                 labelId="firmId"
                 id="firmId"
                 name="firmId"
-                value={data.firmId}
+                value={data?.firmId?._id || data?.firmId || ""}
                 label="firm"
-                onChange={handleChange}>
+                onChange={handleChange}
+                required>
                 {firms?.map((item) => (
                   <MenuItem key={item._id} value={item._id}>
                     {item.name}
@@ -60,10 +65,11 @@ export default function PurchaseModal({ open, handleClose, data, setData }) {
                 labelId="brandId"
                 id="brandId"
                 name="brandId"
-                value={data.brandId}
+                value={data?.brandId?._id || data?.brandId || ""}
                 label="Brand"
-                onChange={handleChange}>
-                {brands.map((item) => (
+                onChange={handleChange}
+                required>
+                {brands?.map((item) => (
                   <MenuItem key={item._id} value={item._id}>
                     {item.name}
                   </MenuItem>
@@ -77,10 +83,11 @@ export default function PurchaseModal({ open, handleClose, data, setData }) {
                 labelId="productId"
                 id="productId"
                 name="productId"
-                value={data.productId}
+                value={data?.productId?._id || data?.productId || ""}
                 label="product"
-                onChange={handleChange}>
-                {products.map((item) => (
+                onChange={handleChange}
+                required>
+                {products?.map((item) => (
                   <MenuItem key={item._id} value={item._id}>
                     {item.name}
                   </MenuItem>
@@ -92,9 +99,10 @@ export default function PurchaseModal({ open, handleClose, data, setData }) {
               label="Quantity"
               name="quantity"
               id="quantity"
-              type="text"
+              type="number"
               variant="outlined"
-              value={data.quantity}
+              InputProps={{ inputProps: { min: 0 } }}
+              value={data?.quantity || ""}
               onChange={handleChange}
               required
             />
@@ -103,14 +111,15 @@ export default function PurchaseModal({ open, handleClose, data, setData }) {
               label="Price"
               name="price"
               id="price"
-              type="text"
+              type="number"
               variant="outlined"
-              value={data.price}
+              InputProps={{ inputProps: { min: 0 } }}
+              value={data?.price || ""}
               onChange={handleChange}
               required
             />
             <Button type="submit" variant="contained" size="large">
-              Add Purchase
+              {data._id ? "Update Purchase" : "Add Purchase"}
             </Button>
           </Box>
         </Box>

@@ -8,16 +8,19 @@ import { Grid } from "@mui/material";
 import FirmCard from "../components/FirmCard";
 import FirmModal from "../components/FirmModal";
 import { useState } from "react";
-import TableSkeleton, { CardSkeleton, ErrorMsg, NoDataMsg } from "../components/DataFetchMsg";
+import TableSkeleton, {
+  CardSkeleton,
+  ErrorMsg,
+  NoDataMsg,
+} from "../components/DataFetchMsg";
 import ProductTable from "../components/ProductTable";
 
 export default function Firms() {
   const { getStocks } = useStockCalls();
+
   useEffect(() => {
-    // getFirms()
-    // getSales()
     getStocks("firms");
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [data, setData] = useState({
     name: "",
     phone: "",
@@ -31,7 +34,6 @@ export default function Firms() {
     setOpen(false);
     setData({ name: "", phone: "", address: "", image: "" });
   };
-
 
   return (
     <div>
@@ -50,9 +52,9 @@ export default function Firms() {
       />
 
       {error && <ErrorMsg />}
-      {loading &&  (
+      {loading && (
         <CardSkeleton>
-          <FirmCard   />
+          <FirmCard />
         </CardSkeleton>
       )}
 
@@ -67,7 +69,6 @@ export default function Firms() {
           ))}
         </Grid>
       )}
-
     </div>
   );
 }

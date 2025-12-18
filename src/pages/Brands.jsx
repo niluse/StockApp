@@ -19,10 +19,8 @@ export default function Brands() {
     image: "",
   });
   useEffect(() => {
-    // getFirms()
-    // getSales()
     getStocks("brands");
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const { brands, loading, error } = useSelector((state) => state.stock);
 
   const handleOpen = () => setOpen(true);
@@ -39,12 +37,12 @@ export default function Brands() {
         New Brand
       </Button>
       <BrandModule
-      open={open}
+        open={open}
         handleClose={handleClose}
         handleOpen={handleOpen}
         data={data}
         setData={setData}
-        />
+      />
       <Grid
         container
         spacing={3}
@@ -53,7 +51,11 @@ export default function Brands() {
         marginTop={2}>
         {brands?.map((brand) => (
           <Grid item key={brand._id}>
-            <BrandCard brand={brand} setData={setData} handleOpen={handleOpen} />
+            <BrandCard
+              brand={brand}
+              setData={setData}
+              handleOpen={handleOpen}
+            />
           </Grid>
         ))}
       </Grid>

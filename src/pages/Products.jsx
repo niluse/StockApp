@@ -27,8 +27,7 @@ export default function Products() {
     getStocks("categories");
     getStocks("products");
     getStocks("brands");
-  }, []);
-
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -45,14 +44,13 @@ export default function Products() {
         data={data}
         setData={setData}
       />
-      
+
       {error && <ErrorMsg />}
       {loading && <TableSkeleton />}
 
       {!error && !loading && !products.length && <NoDataMsg />}
 
       {!loading && !error && products.length > 0 && <ProductTable />}
-    
     </div>
   );
 }

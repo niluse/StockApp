@@ -13,7 +13,13 @@ export default function Purchases() {
   const { getProPurBranFirm } = useStockCalls();
   const { purchases, error, loading } = useSelector((state) => state.stock);
 
-  const initialState = { categoryId: "", brandId: "", name: "" };
+  const initialState = {
+    firmId: "",
+    brandId: "",
+    productId: "",
+    quantity: "",
+    price: "",
+  };
   const [data, setData] = useState(initialState);
 
   const [open, setOpen] = useState(false);
@@ -24,9 +30,8 @@ export default function Purchases() {
   };
 
   useEffect(() => {
-    getProPurBranFirm()
-  }, []);
-
+    getProPurBranFirm();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -42,14 +47,15 @@ export default function Purchases() {
         data={data}
         setData={setData}
       />
-      
+
       {error && <ErrorMsg />}
       {loading && <TableSkeleton />}
 
       {!error && !loading && !purchases.length && <NoDataMsg />}
 
-      {!loading && !error && purchases.length > 0 && <PurchaseTable setData={setData} handleOpen={handleOpen} />}
-    
+      {!loading && !error && purchases.length > 0 && (
+        <PurchaseTable setData={setData} handleOpen={handleOpen} />
+      )}
     </div>
   );
 }

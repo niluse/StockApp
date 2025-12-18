@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react"
-import useStockCalls from "../service/useStockCalls"
-import { Button, Container } from "@mui/material"
-import SaleTable from "../components/SaleTable"
-import TableSkeleton, { ErrorMsg, NoDataMsg } from "../components/DataFetchMsg"
-import { useSelector } from "react-redux"
-import SaleModal from "../components/SaleModal"
+import { useEffect, useState } from "react";
+import useStockCalls from "../service/useStockCalls";
+import { Button, Container } from "@mui/material";
+import SaleTable from "../components/SaleTable";
+import TableSkeleton, { ErrorMsg, NoDataMsg } from "../components/DataFetchMsg";
+import { useSelector } from "react-redux";
+import SaleModal from "../components/SaleModal";
 import Typography from "@mui/material/Typography";
-
 
 const Sales = () => {
   // return(
@@ -16,31 +15,29 @@ const Sales = () => {
   //   </>
   // )
 
+  const { getStocks } = useStockCalls();
+  const { sales, loading, error } = useSelector((state) => state.stock);
 
-  
-  const { getStocks } = useStockCalls()
-  const { sales, loading, error } = useSelector((state) => state.stock)
+  const [open, setOpen] = useState(false);
 
-  const [open, setOpen] = useState(false)
+  const initialState = { brandId: "", productId: "", quantity: "", price: "" };
+  const [info, setInfo] = useState(initialState);
 
-  const initialState = { brandId: "", productId: "", quantity: "", price: "" }
-  const [info, setInfo] = useState(initialState)
-
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => setOpen(true);
   const handleClose = () => {
-    setOpen(false)
-    setInfo(initialState)
-  }
+    setOpen(false);
+    setInfo(initialState);
+  };
 
   useEffect(() => {
-    getStocks("products")
-    getStocks("sales")
-    getStocks("brands")
-  }, []) 
+    getStocks("products");
+    getStocks("sales");
+    getStocks("brands");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container maxWidth="xl">
-    <Typography variant="h5" color="error" mb={3}>
+      <Typography variant="h5" color="error" mb={3}>
         Sales
       </Typography>
 
@@ -62,7 +59,7 @@ const Sales = () => {
         <SaleTable setInfo={setInfo} handleOpen={handleOpen} />
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default Sales
+export default Sales;
